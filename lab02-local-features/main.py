@@ -14,7 +14,7 @@ HARRIS_THRESH = 1e-5
 MATCHING_RATIO_TEST_THRESHOLD = 0.5
 
 def main_detection():
-    IMG_NAME1 = "images/blocks.jpg"
+    IMG_NAME1 = "C:\\Users\\Giacomo Ponti\\Desktop\\computer_visionHS23\\lab02-local-features\\images\\blocks.jpg"  # "images/blocks.jpg"
     IMG_NAME2 = "images/house.jpg"
 
     # Harris corner detection
@@ -22,8 +22,8 @@ def main_detection():
     corners1, C1 = extract_harris(img1, HARRIS_SIGMA, HARRIS_K, HARRIS_THRESH)
     plot_image_with_keypoints(os.path.basename(IMG_NAME1[:-4]) + "_harris.png", img1, corners1)
 
-    img2 = cv2.imread(IMG_NAME2, cv2.IMREAD_GRAYSCALE)
-    corners2, C2 = extract_harris(img2, HARRIS_SIGMA, HARRIS_K, HARRIS_THRESH)
+    # img2 = cv2.imread(IMG_NAME2, cv2.IMREAD_GRAYSCALE)
+    # corners2, C2 = extract_harris(img2, HARRIS_SIGMA, HARRIS_K, HARRIS_THRESH)
     plot_image_with_keypoints(os.path.basename(IMG_NAME2[:-4]) + "_harris.png", img2, corners2)
 
 def main_matching():
