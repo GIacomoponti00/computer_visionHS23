@@ -14,7 +14,7 @@ HARRIS_THRESH = 1e-5
 MATCHING_RATIO_TEST_THRESHOLD = 0.5
 
 def main_detection():
-    IMG_NAME1 = "images/blocks.jpg"
+    IMG_NAME1 = "lab02-local-features/images/blocks.jpg"
     IMG_NAME2 = "images/house.jpg"
 
     # Harris corner detection
