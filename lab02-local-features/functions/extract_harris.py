@@ -6,7 +6,7 @@ from scipy import ndimage #for the scipy.ndimage.maximum_filter
 import cv2 as cv #manually added import 
 
 # Harris corner detector
-def extract_harris(img, sigma = 1.0, k = 0.05, thresh = 1e-5):
+def extract_harris(img, sigma = 1.0, k = 0.06, thresh = 1e-4):
     '''
     Inputs:
     - img:      (h, w) gray-scaled image
@@ -17,11 +17,12 @@ def extract_harris(img, sigma = 1.0, k = 0.05, thresh = 1e-5):
     - corners:  (q, 2) numpy array storing the keypoint positions [x, y]
     - C:     (h, w) numpy array storing the corner strength
     '''
+    #img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     #img = np.float32(img)
-    #C = cv.cornerHarris(img, 2, 3, 0.04).T
+    
     # Convert to float
     img = img.astype(float) / 255.0
-
+    #C = cv.cornerHarris(img, 2, 3, 0.04)
     # 1. Compute image gradients in x and y direction
     # TODO: implement the computation of the image gradients Ix and Iy here.
     # You may refer to scipy.signal.convolve2d for the convolution.
@@ -46,11 +47,12 @@ def extract_harris(img, sigma = 1.0, k = 0.05, thresh = 1e-5):
     # 2. Blur the computed gradients
     # TODO: compute the blurred image gradients
     # You may refer to cv2.GaussianBlur for the gaussian filtering (border_type=cv2.BORDER_REPLICATE)
-    #Iy_blur = cv.GaussianBlur(Iy, (5, 5), sigma, borderType=cv.BORDER_REPLICATE)
-    #Ix_blur = cv.GaussianBlur(Ix, (5, 5), sigma, borderType=cv.BORDER_REPLICATE)
-    Ixx = ndimage.gaussian_filter(np.square(Ix), sigma)
-    Ixy = ndimage.gaussian_filter(Iy*Ix, sigma)
-    Iyy = ndimage.gaussian_filter(np.square(Iy), sigma)
+    #Iy_blur = Ix_blur = [[]]
+    #cv.GaussianBlur(Iy, Iy_blur, [3, 3], sigma, borderType=cv.BORDER_REPLICATE)
+    #cv.GaussianBlur(Ix, Ix_blur, [3, 3], sigma, borderType=cv.BORDER_REPLICATE)
+    Ixx = ndimage.gaussian_filter(np.square(Ix), sigma, mode='nearest')
+    Ixy = ndimage.gaussian_filter(Ix*Iy, sigma, mode='nearest')
+    Iyy = ndimage.gaussian_filter(np.square(Iy), sigma, mode='nearest')
 
     #print("finished step 2")
     # raise NotImplementedError
@@ -74,22 +76,20 @@ def extract_harris(img, sigma = 1.0, k = 0.05, thresh = 1e-5):
     # TODO: compute the Harris response function C here
     #C = np.linalg.det(M) - k*pow(np.trace(M), 2)
     C = (Ixx*Iyy - np.square(Ixy)) - (k*np.square(Ixx + Iyy))
-    cv.imwrite("C.png", C)
-
-    # cv.normalize(C, C, 0, 1, cv.NORM_MINMAX)
 
     # 5. Detection with threshold and non-maximum suppression
     # TODO: detection and find the corners here
     # For the non-maximum suppression, you may refer to scipy.ndimage.maximum_filter to check a 3x3 neighborhood.
     # You may refer to np.where to find coordinates of points that fulfill some condition; Please, pay attention to the order of the coordinates.
     # You may refer to np.stack to stack the coordinates to the correct output format
-    
-    #print(np.shape(C))
-    neighborhood = np.ones((3, 3), dtype = bool)
-    corners = ndimage.maximum_filter(C, footprint=neighborhood, mode='constant')
-    corners = np.stack(np.where(corners > thresh)).T
 
-    #
-    #raise NotImplementedError
+    corners = np.stack(np.where(C > thresh*C.max()), axis=1)
+
+    #for every corner candidate, check its 3x3 neighborhood and if the center is not the maximum, remove it
+    for candidate in corners:
+        if C[candidate[0], candidate[1]] != ndimage.maximum_filter(C, footprint=np.ones((3, 3), dtype=bool))[candidate[0], candidate[1]]:
+            corners = np.delete(corners, np.where((corners == candidate).all(axis=1))[0], axis=0)
+
+    corners[:, [1, 0]]= corners[:, [0, 1]]
     return corners, C
 

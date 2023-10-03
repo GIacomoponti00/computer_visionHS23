@@ -8,9 +8,9 @@ from functions.match_descriptors import match_descriptors
 from functions.vis_utils import plot_image_with_keypoints, plot_image_pair_with_matches
 
 # constants
-HARRIS_SIGMA = 1.0
+HARRIS_SIGMA = 2.0
 HARRIS_K = 0.05
-HARRIS_THRESH = 1e-5
+HARRIS_THRESH = 1e-2
 MATCHING_RATIO_TEST_THRESHOLD = 0.5
 
 def main_detection():
