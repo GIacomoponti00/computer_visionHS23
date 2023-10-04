@@ -86,8 +86,9 @@ def extract_harris(img, sigma = 1.0, k = 0.06, thresh = 1e-4):
     corners = np.stack(np.where(C > thresh*C.max()), axis=1)
 
     #for every corner candidate, check its 3x3 neighborhood and if the center is not the maximum, remove it
+    max_suppr = ndimage.maximum_filter(C, footprint=np.ones((3, 3), dtype=bool))
     for candidate in corners:
-        if C[candidate[0], candidate[1]] != ndimage.maximum_filter(C, footprint=np.ones((3, 3), dtype=bool))[candidate[0], candidate[1]]:
+        if C[candidate[0], candidate[1]] != max_suppr[candidate[0], candidate[1]]:
             corners = np.delete(corners, np.where((corners == candidate).all(axis=1))[0], axis=0)
 
     corners[:, [1, 0]]= corners[:, [0, 1]]

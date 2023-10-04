@@ -15,7 +15,7 @@ MATCHING_RATIO_TEST_THRESHOLD = 0.5
 
 def main_detection():
     IMG_NAME1 = "lab02-local-features/images/blocks.jpg"
-    IMG_NAME2 = "images/house.jpg"
+    IMG_NAME2 = "lab02-local-features/images/house.jpg"
 
     # Harris corner detection
     img1 = cv2.imread(IMG_NAME1, cv2.IMREAD_GRAYSCALE)
@@ -27,8 +27,8 @@ def main_detection():
     plot_image_with_keypoints(os.path.basename(IMG_NAME2[:-4]) + "_harris.png", img2, corners2)
 
 def main_matching():
-    IMG_NAME1 = "images/I1.jpg"
-    IMG_NAME2 = "images/I2.jpg"
+    IMG_NAME1 = "lab02-local-features/images/I1.jpg"
+    IMG_NAME2 = "lab02-local-features/images/I2.jpg"
 
     # Harris corner detection
     img1 = cv2.imread(IMG_NAME1, cv2.IMREAD_GRAYSCALE)
@@ -53,8 +53,8 @@ def main_matching():
     plot_image_pair_with_matches("match_ratio.png", img1, corners1, img2, corners2, matches_ratio)
 
 def main():
-    main_detection()
-    pdb.set_trace() # Enter c to continue to matching, q to exit.
+    #main_detection()
+    #pdb.set_trace() # Enter c to continue to matching, q to exit.
     main_matching()
 
 if __name__ == "__main__":
