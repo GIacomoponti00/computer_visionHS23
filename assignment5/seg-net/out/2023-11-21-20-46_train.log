@@ -1,0 +1,8 @@
+2023-11-21 20:46:56,785 Namespace(eval_interval=1, frequent=10, gpu=False, num_workers=4, out_dir='out')
+2023-11-21 20:46:57,003 => load 200 samples
+2023-11-21 20:46:57,005 => load 200 samples
+2023-11-21 20:47:00,278 Epoch: [0][0/200]	Time 3.272s (3.272s)	Speed 9.8 samples/s	Data 2.813s (2.813s)	Loss 2.53597 (2.53597)
+2023-11-21 20:47:04,100 Epoch: [0][10/200]	Time 0.394s (0.645s)	Speed 81.1 samples/s	Data 0.000s (0.256s)	Loss 2.05274 (2.26276)
+2023-11-21 20:47:07,845 Epoch: [0][20/200]	Time 0.383s (0.516s)	Speed 83.4 samples/s	Data 0.000s (0.134s)	Loss 1.76644 (2.08518)
+2023-11-21 20:47:11,573 Epoch: [0][30/200]	Time 0.382s (0.470s)	Speed 83.8 samples/s	Data 0.000s (0.091s)	Loss 1.51338 (1.93464)
+2023-11-21 20:47:15,373 Epoch: [0][40/200]	Time 0.373s (0.448s)	Speed 85.7 samples/s	Data 0.000s (0.069s)	Loss 1.28834 (1.80120)
